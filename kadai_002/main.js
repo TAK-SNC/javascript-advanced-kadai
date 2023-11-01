@@ -103,12 +103,12 @@ const rankCheck = score => {
 
 // ゲームを終了
 const gameOver = id => {
-  clearInterval(id);
-
   // ｢タイムアップ！｣を表示する
   typedfield.textContent = '';
   untypedfield.textContent = 'タイムアップ！';
   typeCount.textContent = '';
+
+  clearInterval(id);
 
   const resultTimeout = setTimeout(() => {
     const result = confirm(rankCheck(score));
