@@ -14,18 +14,18 @@ const typeCount = document.getElementById('typeCount');
 
 // 複数のテキストを格納する配列
 const textLists = [
-  'Hello World','This is my App','How are you?',
-  'Today is sunny','I love JavaScript!','Good morning',
-  'I am Japanese','Let it be','Samurai',
-  'Typing Game','Information Technology',
-  'I want to be a programmer','What day is today?',
-  'I want to build a web app','Nice to meet you',
-  'Chrome Firefox Edge Safari','machine learning',
-  'Brendan Eich','John Resig','React Vue Angular',
-  'Netscape Communications','undefined null NaN',
-  'Thank you very much','Google Apple Facebook Amazon',
-  'ECMAScript','console.log','for while if switch',
-  'var let const','Windows Mac Linux iOS Android',
+  'Hello World', 'This is my App', 'How are you?',
+  'Today is sunny', 'I love JavaScript!', 'Good morning',
+  'I am Japanese', 'Let it be', 'Samurai',
+  'Typing Game', 'Information Technology',
+  'I want to be a programmer', 'What day is today?',
+  'I want to build a web app', 'Nice to meet you',
+  'Chrome Firefox Edge Safari', 'machine learning',
+  'Brendan Eich', 'John Resig', 'React Vue Angular',
+  'Netscape Communications', 'undefined null NaN',
+  'Thank you very much', 'Google Apple Facebook Amazon',
+  'ECMAScript', 'console.log', 'for while if switch',
+  'var let const', 'Windows Mac Linux iOS Android',
   'programming'
 ];
 
@@ -51,7 +51,7 @@ createText();
 // キー入力の判定
 const keyPress = e => {
   // 誤タイプの場合
-  if(e.key !== untyped.substring(0, 1)) {
+  if (e.key !== untyped.substring(0, 1)) {
     wrap.classList.add('mistyped');
     // 100ms後に背景色を元に戻す
     setTimeout(() => {
@@ -65,7 +65,7 @@ const keyPress = e => {
   // タイプカウントのインクリメント
   typedCount++;
   typeCount.textContent = typedCount;
-  
+
   // スコアのインクリメント
   score++;
 
@@ -76,7 +76,7 @@ const keyPress = e => {
   untypedfield.textContent = untyped;
 
   // テキストがなくなったら新しいテキストを表示
-  if(untyped === '') {
+  if (untyped === '') {
     createText();
   }
 };
@@ -87,7 +87,7 @@ const rankCheck = score => {
   let text = '';
 
   // スコアに応じて異なるメッセージを変数textに格納する
-  if(score < 100) {
+  if (score < 100) {
     text = `あなたのランクはCです。\nBランクまであと${100 - score}文字です。`;
   } else if (score < 200) {
     text = `あなたのランクはBです。\nAランクまであと${200 - score}文字です。`;
@@ -105,12 +105,20 @@ const rankCheck = score => {
 const gameOver = id => {
   clearInterval(id);
 
-  const result = confirm(rankCheck(score));
+  // ｢タイムアップ！｣を表示する
+  typedfield.textContent = '';
+  untypedfield.textContent = 'タイムアップ！';
+  count.textContent = '';
+  typeCount.textContent = '';
 
-  // OKボタンをクリックされたらリロードする
-  if(result == true) {
-    window.location.reload();
-  }
+  const resultTimeout = setTimeout(() => {
+    const result = confirm(rankCheck(score));
+
+    // OKボタンをクリックされたらリロードする
+    if (result == true) {
+      window.location.reload();
+    }
+  }, 10);
 };
 
 // カウントダウンタイマー
@@ -126,27 +134,16 @@ const timer = () => {
     count.textContent = time;
 
     // カウントが0になったらタイマーを停止する
-    if(time <= 0) {
-
-      // ｢タイムアップ！｣を表示する
-      typedfield.textContent = '';
-      untypedfield.textContent = 'タイムアップ！';
-      count.textContent = '';
-      typeCount.textContent = '';
-
-
-      // 10ミリ秒後に結果を表示
-      const timeUp = setTimeout(() => {
-        gameOver(id);
-      }, 10);
+    if (time <= 0) {
+      gameOver(id);
     }
   }, 1000);
-  
+
 };
 
 // ゲームスタート時の処理
 start.addEventListener('click', () => {
-  
+
   // カウントダウンタイマーを開始する
   timer();
 
@@ -154,10 +151,10 @@ start.addEventListener('click', () => {
   createText();
 
   // ｢スタート｣ボタンを非表示にする
-  start.style.display ='none';
+  start.style.display = 'none';
 
   // キーボードのイベント処理
-document.addEventListener('keypress', keyPress);
+  document.addEventListener('keypress', keyPress);
 
 });
 
